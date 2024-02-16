@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-9MC8LMQVMV"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-9MC8LMQVMV');
+		</script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="utf-8">
+		<title>D3 Bar Ranker</title>
+
+		<!-- CSS & libraries -->
+		<link rel="stylesheet" href="css/style.css">
+		<script src="https://d3js.org/d3.v7.min.js"></script>
+	</head>
+	<body>
+		<h1>Bar Chart Ranker</h1>
+		<div class="entry" id="mapEntry">
+			<div class="buttonContainer">
+				<div class="box">
+					<div>
+						<button id="lifeSatButton" data-metric="lifeSat" data-ranker="lifeSatRank" class="rankerButtons buttonSelected">Life satisfaction</button>
+					</div>
+				</div>
+				<div class="box">
+					<div>
+						<button id="anxietyButton" data-metric="happiness" data-ranker="happyRank" class="rankerButtons">Happiness yesterday</button>
+					</div>
+				</div>
+				<div class="box">
+					<div>
+						<button id="lifeSatButton" data-metric="worthwhile" data-ranker="worthwhileRank" class="rankerButtons">Worthwhile activities</button>
+					</div>
+				</div>
+				<div class="box">
+					<div>
+						<button id="anxietyButton" data-metric="anxiety" data-ranker="anxietyRank" class="rankerButtons">Anxiety yesterday</button>
+					</div>
+				</div>
+			</div>
+			<div id="barChart"></div>
+			<div id="tooltipBars" class="tooltip" style="text-align:left;"></div>
+		</div>
+		
+		<script src="js/script.js"></script>
+	</body>
+</html>
