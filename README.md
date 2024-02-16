@@ -1,4 +1,4 @@
-# D3 Bar Chart Ranker
+# D3 Bar Chart Ranker for Data Visualization Society Mentees
 
 Example code for a D3 bar chart ranker.
 
