@@ -9,7 +9,7 @@ function barRanker() {
     // add svg
     let box = document.getElementById('barChart');
     let width = box.offsetWidth - margin.left - margin.right;
-    let height = window.innerHeight * 1.5 - margin.top - margin.bottom;
+    let height = window.innerHeight * 1 - margin.top - margin.bottom;
     let yTickLabels = 'state';
 
     // x-axis labels
@@ -32,7 +32,7 @@ function barRanker() {
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
     const tooltip = d3.select("#tooltipBars");
-
+    
     // Parse the Data
     d3.csv("data/stateData.csv").then( function(data) {
 
@@ -49,12 +49,12 @@ function barRanker() {
 
         const colorScale = d3.scaleLinear()
             .domain(d3.extent(data, function(d) { return d.lifeSat; }))
-            .range([primaryColorLight, primaryColorDark]);
+            .range(['blue', 'red']);
 
         // Add X axis
         const x = d3.scaleLinear()
             .domain([0, 10])
-            .range([ 0, width]);
+            .range([ 0, width]);   
         svg.append("g")
             .attr("class", "axis")
             .attr("transform", `translate(0, ${height})`)
@@ -78,8 +78,9 @@ function barRanker() {
             .attr("y", d => y(d.lifeSatRank))
             .attr("width", d => x(d.lifeSat))
             .attr("height", y.bandwidth())
-            .attr("fill", d => colorScale(d.lifeSat))
+            .attr('fill', d => colorScale(d.lifeSat))
             .on('mouseover', function(event, d) {
+                console.log(d);
                 d3.select(this).style('fill', 'orange');
                 tooltip.html('State: ' + d.state + '<br>Rank: ' + d.lifeSatRank + '<br> Avg life satisfaction: ' + d.lifeSat.toFixed(1))
                     .transition()
