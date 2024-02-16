@@ -1,6 +1,3 @@
-const primaryColorLight = 'hsl(197, 97%, 66%)'; // low end of map, bars, and younger ages in age analysis
-const primaryColorDark = '#0006b8'; // high end of map, bars, and older ages in age analysis
-const primaryColorMedium = '#2A6ADA'; 
 const mobile = window.innerWidth < 600;
 
 function barRanker() {
@@ -80,7 +77,6 @@ function barRanker() {
             .attr("height", y.bandwidth())
             .attr('fill', d => colorScale(d.lifeSat))
             .on('mouseover', function(event, d) {
-                console.log(d);
                 d3.select(this).style('fill', 'orange');
                 tooltip.html('State: ' + d.state + '<br>Rank: ' + d.lifeSatRank + '<br> Avg life satisfaction: ' + d.lifeSat.toFixed(1))
                     .transition()
