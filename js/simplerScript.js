@@ -1,5 +1,5 @@
-const primaryColorLight = 'hsl(197, 97%, 66%)';
-const primaryColorDark = '#0006b8';
+const primaryColorLight = '#c1e1c1';
+const primaryColorDark = '#097969';
 
 function barRanker() {
     const margin = {top: 20, right: 30, bottom: 50, left: 30}

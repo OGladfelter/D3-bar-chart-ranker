@@ -14,7 +14,7 @@ function barRanker() {
 
     // adjust for mobile
     if (mobile) {
-        height = window.innerHeight * 1.5;
+        height = window.innerHeight;
         margin.left = 20;
         margin.right = 20;
         width = box.offsetWidth - margin.left - margin.right;
@@ -46,7 +46,7 @@ function barRanker() {
 
         const colorScale = d3.scaleLinear()
             .domain(d3.extent(data, function(d) { return d.lifeSat; }))
-            .range(['blue', 'red']);
+            .range(['#c1e1c1', '#097969']);
 
         // Add X axis
         const x = d3.scaleLinear()
@@ -64,7 +64,7 @@ function barRanker() {
             .padding(.05);
         svg.append("g")
             .attr("class", "axis")
-            .call(d3.axisLeft(y).tickSizeOuter(0).tickSize(0).tickFormat((d, i) => d == 1 || d % 5 == 0 ? d : ''));
+            .call(d3.axisLeft(y).tickSizeOuter(0).tickSize(0).tickFormat((d, i) => d));
 
         // bars
         svg.selectAll(".barChartRectangles")
@@ -127,13 +127,13 @@ function barRanker() {
                         .duration(250)
                         .style('opacity', 1);
                 })
-                .transition().duration(1500)
+                .transition().duration(750)
                 .attr("fill", d => colorScale(d[metric])) // recolor
                 .attr("y", d => y(d[rankMetric])) // move up or down
                 .attr("width", d => x(d[metric])); // resize
 
             // move text labels
-            svg.selectAll(".textOnBars").transition().duration(1500).attr("y", d => y(d[rankMetric]) + (y.bandwidth() / 2));
+            svg.selectAll(".textOnBars").transition().duration(750).attr("y", d => y(d[rankMetric]) + (y.bandwidth() / 2));
 
             // update x-axis label
             svg.select("#rankerAxisLabel").text(metricDict[metric]);
