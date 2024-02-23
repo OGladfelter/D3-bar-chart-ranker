@@ -56,7 +56,7 @@ function barRanker() {
             .padding(.05);
         svg.append("g")
             .attr("class", "axis")
-            .call(d3.axisLeft(yScale).tickSizeOuter(0).tickSize(0).tickFormat((d, i) => d == 1 || d % 5 == 0 ? d : '')); // only label every 5 ticks
+            .call(d3.axisLeft(yScale).tickSizeOuter(0).tickSize(0).tickFormat((columnValue) => columnValue == 1 || columnValue % 5 == 0 ? columnValue : '')); // only label every 5 ticks
 
         // add rectangles to the svg
         svg.selectAll(".staticRectangles")
