@@ -28,21 +28,29 @@ function barRanker() {
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
     
     // Parse the Data
-    d3.csv("data/stateData.csv").then( function(data) {
+    d3.csv("data/smokingData.csv").then( function(data) {
 
-        data.forEach(function(d) {
+        // DATA PREP
+        data = data.filter(d => d.sex_name == 'Female'); // filter to female
+        data.forEach(function(d, i) {
             // loop over data, make sure D3 interprets the following columns as integers
-            d.lifeSat = +d.lifeSat;
-            d.lifeSatRank = +d.lifeSatRank;
+            d.val = +d.val;
         });
+        data = data.slice().sort((a, b) => d3.descending(a.val, b.val)); // sort data ascending by val
+        data.forEach(function(d, i) {
+            d.rank = i + 1; // compute rank column
+        });
+        data = data.slice(0, 100); // grab first 100 rows
+
+        console.log(data);
 
         const colorScale = d3.scaleLinear()
-            .domain(d3.extent(data, function(d) { return d.lifeSat; }))
+            .domain(d3.extent(data, function(d) { return d.val; }))
             .range([primaryColorLight, primaryColorDark]);
 
         // Add X scale and axis
         const xScale = d3.scaleLinear()
-            .domain([0, 10]) // chose 0 and 10 because the question "how satisified are you with life?" is on a 0 - 10 scale
+            .domain(d3.extent(data, function(d) { return d.val; })) // chose 0 and 10 because the question "how satisified are you with life?" is on a 0 - 10 scale
             .range([ 0, width]);   
         svg.append("g")
             .attr("class", "axis")
@@ -51,7 +59,7 @@ function barRanker() {
 
         // Add Y scale and axis
         const yScale = d3.scaleBand()
-            .domain(data.map(d => d.lifeSatRank).sort(function(a, b){return a-b})) // can't just do min/max rank because we're using .scaleBand() for this scale
+            .domain(data.map(d => d.rank).sort(function(a, b){return a-b})) // can't just do min/max rank because we're using .scaleBand() for this scale
             .range([ 0, height ])
             .padding(.05);
         svg.append("g")
@@ -64,18 +72,18 @@ function barRanker() {
             .join("rect")
             .attr('class', 'staticRectangles')
             .attr("x", 0 ) // bar charts typically start every bar at x = 0
-            .attr("y", d => yScale(d.lifeSatRank))
-            .attr("width", d => xScale(d.lifeSat))
+            .attr("y", d => yScale(d.rank))
+            .attr("width", d => xScale(d.val))
             .attr("height", yScale.bandwidth())
-            .attr('fill', d => colorScale(d.lifeSat));
+            .attr('fill', d => colorScale(d.val));
 
         // add text labels to svg, position so they appear above bars
         svg.selectAll(".textOnBars")
             .data(data)
             .join("text")
             .attr("x", xScale(0) + 5 )
-            .attr("y", d => yScale(d.lifeSatRank) + (yScale.bandwidth() / 2))
-            .text(d => d.state)
+            .attr("y", d => yScale(d.rank) + (yScale.bandwidth() / 2))
+            .text(d => d.location_name)
             .attr('class', 'textOnBars');
 
         // add x-axis label at bottom of svg space
